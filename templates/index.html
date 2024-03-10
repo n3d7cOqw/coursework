@@ -1,0 +1,80 @@
+{% extends 'base.html'%}
+
+{% block title%} Головна {% endblock title%}
+
+{% block content%}
+<div class="container">
+    <button type="button" class="btn btn-primary add-button " data-bs-toggle="modal" data-bs-target="#modal">
+        Додати новий запис
+    </button>
+
+    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Новий запис</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+                        <label for="name" class="form-label">Ім'я</label>
+                        <input type="text" class="form-control" id="name" name="name"
+                               placeholder="Ім'я">
+                    </div>
+                    <div class="mb-3">
+                        <label for="surname" class="form-label">Прізвище</label>
+                        <input type="text" class="form-control" id="surname" name="surname"
+                               placeholder="Прізвище">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-number" class="form-label">Номер телефону</label>
+                        <input type="text" class="form-control" id="phone-number" name="phone_number"
+                               placeholder="Номер телефону">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-address" class="form-label">Адреса</label>
+                        <input type="text" class="form-control" id="phone-address" name="address"
+                               placeholder="Адреса">
+                    </div>
+                    <div class="mb-3">
+                        <label for="additional-contacts" class="form-label">Додаткові контакти</label>
+                        <input type="text" class="form-control" id="additional-contacts" name="additional_contacts"
+                               placeholder="Додаткові контакти">
+                    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+        <button type="button" class="btn btn-primary">Додати</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <table class="table">
+        <thead>
+        <tr class="table-primary">
+            <th scope="col column-titles">#</th>
+            <th scope="col column-titles">Ім'я</th>
+            <th scope="col column-titles">Прізвище</th>
+            <th scope="col column-titles">Номер телефону</th>
+            <th scope="col column-titles">Адреса</th>
+            <th scope="col column-titles">Додаткові контакти</th>
+            <th scope="col column-titles">Редагування</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>
+                <a href="" class="btn btn-primary">Редагувати</a>
+                <a href="" class="btn btn-danger">Видалити</a>
+            </td>
+        </tr>
+
+    </table>
+</div>
+{% endblock content%}
