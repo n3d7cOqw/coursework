@@ -4,51 +4,66 @@
 
 {% block content%}
 <div class="container">
+
     <button type="button" class="btn btn-primary add-button " data-bs-toggle="modal" data-bs-target="#modal">
         Додати новий запис
     </button>
-
-    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Новий запис</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="d-flex ">
+    <div class="alert alert-{{ category }}" role="alert">
+        {{ message }}
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-                        <label for="name" class="form-label">Ім'я</label>
-                        <input type="text" class="form-control" id="name" name="name"
-                               placeholder="Ім'я">
-                    </div>
-                    <div class="mb-3">
-                        <label for="surname" class="form-label">Прізвище</label>
-                        <input type="text" class="form-control" id="surname" name="surname"
-                               placeholder="Прізвище">
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone-number" class="form-label">Номер телефону</label>
-                        <input type="text" class="form-control" id="phone-number" name="phone_number"
-                               placeholder="Номер телефону">
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone-address" class="form-label">Адреса</label>
-                        <input type="text" class="form-control" id="phone-address" name="address"
-                               placeholder="Адреса">
-                    </div>
-                    <div class="mb-3">
-                        <label for="additional-contacts" class="form-label">Додаткові контакти</label>
-                        <input type="text" class="form-control" id="additional-contacts" name="additional_contacts"
-                               placeholder="Додаткові контакти">
-                    </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
-        <button type="button" class="btn btn-primary">Додати</button>
-      </div>
     </div>
-  </div>
-</div>
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/store-record" method="POST">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Новий запис</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Ім'я</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                   placeholder="Ім'я">
+                        </div>
+                        <div class="mb-3">
+                            <label for="surname" class="form-label">Прізвище</label>
+                            <input type="text" class="form-control" id="surname" name="surname"
+                                   placeholder="Прізвище">
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone-number" class="form-label">Номер телефону</label>
+                            <input type="text" class="form-control" id="phone-number" name="phone_number"
+                                   placeholder="Номер телефону">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Адреса</label>
+                            <input type="text" class="form-control" id="address" name="address"
+                                   placeholder="Адреса">
+                        </div>
+                        <div class="mb-3">
+                            <label for="additional-contacts" class="form-label">Додаткові контакти</label>
+                            <input type="text" class="form-control" id="additional-contacts" name="add_info"
+                                   placeholder="Додаткові контакти">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+                        <button type="submit" class="btn btn-primary">Додати</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <table class="table">
         <thead>
         <tr class="table-primary">
@@ -62,19 +77,45 @@
         </tr>
         </thead>
         <tbody>
+        {% for record in records %}
         <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
+            <th scope="row">{{record.id}}</th>
+            <td>{{record.name}}</td>
+            <td>{{record.surname}}</td>
+            <td>{{record.phone_number}}</td>
+            <td>{{record.address}}</td>
+            <td>{{record.addition_info}}</td>
             <td>
-                <a href="" class="btn btn-primary">Редагувати</a>
-                <a href="" class="btn btn-danger">Видалити</a>
+                <a href="{{url_for('edit_record', record_id=record.id)}}" class="btn btn-primary">Редагувати</a>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                        data-name="{{record.name}}" data-surname="{{record.surname}}" data-id="{{record.id}}"
+                        id="deleteButton">
+                    Видалити
+                </button>
             </td>
         </tr>
+        {% endfor %}
 
     </table>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="DeleteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="DeleteLabel">Видалення контакту</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Ви впевнені що хочете видалити цей контакт?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Закрити</button>
+                <form action="" id="deleteForm" method="POST">
+                    <button type="submit" class="btn btn-danger">Видалити</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content%}

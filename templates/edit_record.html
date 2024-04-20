@@ -1,0 +1,44 @@
+{% extends 'base.html'%}
+{% block title%} Редагувати {% endblock title%}
+
+{% block content%}
+
+<div class="container mt-4">
+    <form action="{{url_for('update_record', record_id=user.id)}}" method="POST">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Новий запис</h1>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="name" class="form-label">Ім'я</label>
+                <input type="text" class="form-control" id="name" name="name"
+                       placeholder="Ім'я" value="{{user.name}}">
+            </div>
+            <div class="mb-3">
+                <label for="surname" class="form-label">Прізвище</label>
+                <input type="text" class="form-control" id="surname" name="surname"
+                       placeholder="Прізвище" value="{{user.surname}}">
+            </div>
+            <div class="mb-3">
+                <label for="phone-number" class="form-label">Номер телефону</label>
+                <input type="text" class="form-control" id="phone-number" name="phone_number"
+                       placeholder="Номер телефону" value="{{user.phone_number}}">
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Адреса</label>
+                <input type="text" class="form-control" id="address" name="address"
+                       placeholder="Адреса" value="{{user.address}}" >
+            </div>
+            <div class="mb-3">
+                <label for="additional-contacts" class="form-label">Додаткові контакти</label>
+                <input type="text" class="form-control" id="additional-contacts" name="add_info"
+                       placeholder="Додаткові контакти" value="{{user.addition_info}}">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Закрити</button>
+            <button type="submit" class="btn btn-primary">Додати</button>
+        </div>
+    </form>
+</div>
+{% endblock content%}
