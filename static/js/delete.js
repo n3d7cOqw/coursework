@@ -13,3 +13,7 @@ container.addEventListener("click", function (e){
 
     }
 })
+
+setTimeout(function (){
+    document.querySelector(".alert").style.display = "none"
+}, 2000)

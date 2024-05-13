@@ -2,8 +2,18 @@
 {% block title%} Редагувати {% endblock title%}
 
 {% block content%}
-
 <div class="container mt-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="d-flex ">
+        <div class="alert alert-{{ category }}" role="alert">
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     <form action="{{url_for('update_record', record_id=user.id)}}" method="POST">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="staticBackdropLabel">Новий запис</h1>
@@ -36,7 +46,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Закрити</button>
+            <a href="/" type="button" class="btn btn-secondary mx-2" >Закрити</a>
             <button type="submit" class="btn btn-primary">Додати</button>
         </div>
     </form>

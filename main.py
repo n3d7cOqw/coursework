@@ -51,7 +51,8 @@ def store_record():
             return redirect("/")
         except:
             flash("Сталася помилка при валідації нового контакту. Заповніть поля коректно", "danger")
-            return redirect("/")
+
+    return redirect("/")
 
 
 @app.route('/edit-record/<int:record_id>')
@@ -62,13 +63,18 @@ def edit_record(record_id):
 @app.route('/update-record/<int:record_id>', methods=['POST'])
 def update_record(record_id):
     user = User.query.get_or_404(record_id)
-    user.name = request.form['name']
-    user.surname = request.form['surname']
-    user.phone_number = request.form['phone_number']
-    user.address = request.form['address']
-    user.addition_info = request.form['add_info']
-    db.session.commit()
-    return redirect("/")
+    if (len(request.form['name']) > 3 and len(request.form['surname']) > 3 and len(request.form['phone_number']) > 10 and len(request.form['add_info']) > 3):
+        user.name = request.form['name']
+        user.surname = request.form['surname']
+        user.phone_number = request.form['phone_number']
+        user.address = request.form['address']
+        user.addition_info = request.form['add_info']
+        db.session.commit()
+        flash('Контакт успішно оновлено', 'success')
+        return redirect("/")
+    else:
+        flash('Помилка валідації', 'danger')
+        return redirect(request.referrer or "/")
 
 @app.route('/delete-record/<int:record_id>', methods=['POST'])
 def delete_record(record_id):
@@ -79,4 +85,4 @@ def delete_record(record_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

@@ -1,3 +1,7 @@
 .add-button{
     margin: 20px 0;
 }
+
+.alert {
+    transition: display 0.5s ease-in-out;
+}
